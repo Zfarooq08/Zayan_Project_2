@@ -1,0 +1,75 @@
+
+```{r, output = FALSE, echo = FALSE}
+library("tmap")
+library("tmaptools")
+library("sf")
+library("leaflet")
+library(nycflights13)
+library(ggplot2)
+library(maps)
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+usa_map <- map_data("state") |>
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill= "lightblue", color = "black") +
+  theme_void()
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(nycflights13)
+library(plotly)
+usa <- map_data("state")
+
+usa_plot <- ggplot(usa, aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "lightblue", color = "black") +
+  geom_point(airports, mapping = aes(group = NULL, x = lon, y = lat, text = paste("Name:",name, "\n",
+                                                                                  "Time Zone:", tzone))) +
+  coord_cartesian(xlim = c(-125, -65), ylim = c(25, 50)) +
+  theme_void()
+
+usa_interactive <- ggplotly(usa_plot, tooltip = "text")
+
+
+```
+
+Map Of USA
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+usa_map
+```
+
+Map of USA with Airports
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+usa_plot
+```
+
+Map of USA with Airport's Names and Time Zones
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+usa_interactive
+```
+
+
+
+
+
+
+
+
